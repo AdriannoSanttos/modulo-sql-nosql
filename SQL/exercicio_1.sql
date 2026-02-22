@@ -1,55 +1,54 @@
 -- ========================================
--- Exercício 1 – Consultas SQL
--- (Fonte de dados a confirmar: Sakila ou adaptação)
+-- Exercício 1 – SQL (Sakila)
+-- Consulta 1: Filmes e suas categorias
 -- ========================================
 
--- 1) Lista de filmes e suas categorias correspondentes
--- Objetivo: relacionar filmes com categorias
--- Esperado: título do filme + nome da categoria
+SELECT
+    f.title AS filme,
+    c.name  AS categoria
+FROM film f
+INNER JOIN film_category fc
+    ON f.film_id = fc.film_id
+INNER JOIN category c
+    ON fc.category_id = c.category_id
+ORDER BY f.title;
+
+-- ========================================
+-- Consulta 2: Atores e número de filmes
+-- ========================================
 
 SELECT
-    -- film.title,
-    -- category.name
-FROM
-    -- film
-    -- JOIN film_category
-    -- JOIN category
-;
-
-
--- 2) Lista de todos os atores com o número de filmes que cada ator participou
--- Objetivo: contar quantos filmes cada ator fez
--- Ordenar do ator com MAIS filmes para o com MENOS
-
-SELECT
-    -- actor.first_name,
-    -- actor.last_name,
-    -- COUNT(film_actor.film_id) AS total_filmes
-FROM
-    -- actor
-    -- JOIN film_actor
+    a.first_name AS nome,
+    a.last_name  AS sobrenome,
+    COUNT(fa.film_id) AS total_filmes
+FROM actor a
+INNER JOIN film_actor fa
+    ON a.actor_id = fa.actor_id
 GROUP BY
-    -- actor.actor_id
+    a.actor_id,
+    a.first_name,
+    a.last_name
 ORDER BY
-    -- total_filmes DESC
-;
+    total_filmes DESC;
 
-
--- 3) Lista de atores que atuaram em filmes com mais de 120 minutos
--- Objetivo: filtrar filmes longos e contar participação dos atores
+-- ========================================
+-- Consulta 3: Atores em filmes com mais de 120 minutos
+-- ========================================
 
 SELECT
-    -- actor.first_name,
-    -- actor.last_name,
-    -- COUNT(film_actor.film_id) AS total_filmes
-FROM
-    -- actor
-    -- JOIN film_actor
-    -- JOIN film
+    a.first_name AS nome,
+    a.last_name  AS sobrenome,
+    COUNT(fa.film_id) AS total_filmes
+FROM actor a
+INNER JOIN film_actor fa
+    ON a.actor_id = fa.actor_id
+INNER JOIN film f
+    ON fa.film_id = f.film_id
 WHERE
-    -- film.length > 120
+    f.length > 120
 GROUP BY
-    -- actor.actor_id
+    a.actor_id,
+    a.first_name,
+    a.last_name
 ORDER BY
-    -- total_filmes DESC
-;
+    total_filmes DESC;
