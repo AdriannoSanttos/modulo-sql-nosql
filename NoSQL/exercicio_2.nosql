@@ -1,0 +1,29 @@
+// ========================================
+// Exercício 2 – MongoDB (books.json)
+// Contagem de registros
+// ========================================
+
+// 1) Quantidade de livros NÃO publicados e com pageCount menor que 300
+db.books.countDocuments({
+  status: { $ne: "PUBLISH" },
+  pageCount: { $lt: 300 }
+});
+
+// 2) Quantidade de livros que contêm MongoDB e SQL Server no título
+db.books.countDocuments({
+  title: {
+    $regex: /MongoDB.*SQL Server|SQL Server.*MongoDB/i
+  }
+});
+
+// 3) Quantidade de livros cujo ISBN começa com 18
+db.books.countDocuments({
+  isbn: { $regex: /^18/ }
+});
+
+// 4) Quantidade de livros cuja descrição contém JAVA ou Mobile
+db.books.countDocuments({
+  longDescription: {
+    $regex: /java|mobile/i
+  }
+});
