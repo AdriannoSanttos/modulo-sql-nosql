@@ -1,29 +1,50 @@
 // ========================================
-// Exercício 2 – MongoDB (books.json)
-// Contagem de registros
+// Exercício 2 – NoSQL (MongoDB)
+// Contagem de registros das consultas
+// Base de dados: books.json
+// Banco / Coleção: Biblioteca
 // ========================================
 
-// 1) Quantidade de livros NÃO publicados e com pageCount menor que 300
-db.books.countDocuments({
-  status: { $ne: "PUBLISH" },
-  pageCount: { $lt: 300 }
-});
 
-// 2) Quantidade de livros que contêm MongoDB e SQL Server no título
-db.books.countDocuments({
-  title: {
-    $regex: /MongoDB.*SQL Server|SQL Server.*MongoDB/i
+// 1) Quantidade de livros NÃO publicados
+//    com pageCount menor que 300
+db.Biblioteca.countDocuments(
+  {
+    status: { $ne: "PUBLISH" },
+    pageCount: { $lt: 300 }
   }
-});
+)
+
+
+// 2) Quantidade de livros que contêm MongoDB
+//    e SQL Server no título
+db.Biblioteca.countDocuments(
+  {
+    title: {
+      $all: [
+        { $regex: "MongoDB", $options: "i" },
+        { $regex: "SQL Server", $options: "i" }
+      ]
+    }
+  }
+)
+
 
 // 3) Quantidade de livros cujo ISBN começa com 18
-db.books.countDocuments({
-  isbn: { $regex: /^18/ }
-});
-
-// 4) Quantidade de livros cuja descrição contém JAVA ou Mobile
-db.books.countDocuments({
-  longDescription: {
-    $regex: /java|mobile/i
+db.Biblioteca.countDocuments(
+  {
+    isbn: { $regex: "^18" }
   }
-});
+)
+
+
+// 4) Quantidade de livros que contêm JAVA
+//    ou Mobile na descrição
+db.Biblioteca.countDocuments(
+  {
+    longDescription: {
+      $regex: "(JAVA|Mobile)",
+      $options: "i"
+    }
+  }
+)

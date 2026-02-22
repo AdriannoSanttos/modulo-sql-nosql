@@ -1,40 +1,69 @@
 // ========================================
-// Exercício 1 – MongoDB (books.json)
+// Exercício 1 – NoSQL (MongoDB)
+// Base de dados: books.json
+// Banco / Coleção: Biblioteca
+// Observação: projeção apenas do necessário
 // ========================================
 
-// 1) Quantos livros NÃO estão publicados e possuem pageCount menor que 300
-db.books.find(
+
+// 1) Quantos livros NÃO estão com status publicado
+//    e possuem pageCount menor que 300
+db.Biblioteca.find(
   {
     status: { $ne: "PUBLISH" },
     pageCount: { $lt: 300 }
   },
-  { _id: 1 }
-);
+  {
+    title: 1,
+    status: 1,
+    pageCount: 1,
+    _id: 0
+  }
+)
+
 
 // 2) Livros que contêm as palavras MongoDB e SQL Server no título
-db.books.find(
+db.Biblioteca.find(
   {
     title: {
-      $regex: /MongoDB.*SQL Server|SQL Server.*MongoDB/i
+      $all: [
+        { $regex: "MongoDB", $options: "i" },
+        { $regex: "SQL Server", $options: "i" }
+      ]
     }
   },
-  { title: 1, _id: 0 }
-);
+  {
+    title: 1,
+    _id: 0
+  }
+)
+
 
 // 3) Livros cujo ISBN começa com 18
-db.books.find(
+db.Biblioteca.find(
   {
-    isbn: { $regex: /^18/ }
+    isbn: { $regex: "^18" }
   },
-  { isbn: 1, title: 1, _id: 0 }
-);
+  {
+    title: 1,
+    isbn: 1,
+    _id: 0
+  }
+)
 
-// 4) Livros cuja descrição contém JAVA ou Mobile (case insensitive)
-db.books.find(
+
+// 4) Livros que contêm a palavra JAVA ou Mobile
+//    na descrição (case-insensitive)
+db.Biblioteca.find(
   {
     longDescription: {
-      $regex: /java|mobile/i
+      $regex: "(JAVA|Mobile)",
+      $options: "i"
     }
   },
-  { title: 1, longDescription: 1, _id: 0 }
-);
+  {
+    title: 1,
+    longDescription: 1,
+    _id: 0
+  }
+)
