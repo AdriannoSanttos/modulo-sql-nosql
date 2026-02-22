@@ -25,12 +25,10 @@ db.Biblioteca.find(
 // 2) Livros que contêm as palavras MongoDB e SQL Server no título
 db.Biblioteca.find(
   {
-    title: {
-      $all: [
-        { $regex: "MongoDB", $options: "i" },
-        { $regex: "SQL Server", $options: "i" }
-      ]
-    }
+    $and: [
+      { title: { $regex: "MongoDB", $options: "i" } },
+      { title: { $regex: "SQL Server", $options: "i" } }
+    ]
   },
   {
     title: 1,

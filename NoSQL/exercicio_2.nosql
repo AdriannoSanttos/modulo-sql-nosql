@@ -20,12 +20,10 @@ db.Biblioteca.countDocuments(
 //    e SQL Server no título
 db.Biblioteca.countDocuments(
   {
-    title: {
-      $all: [
-        { $regex: "MongoDB", $options: "i" },
-        { $regex: "SQL Server", $options: "i" }
-      ]
-    }
+    $and: [
+      { title: { $regex: "MongoDB", $options: "i" } },
+      { title: { $regex: "SQL Server", $options: "i" } }
+    ]
   }
 )
 
